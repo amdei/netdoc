@@ -5,6 +5,7 @@ __license__    = 'GPLv3'
 __date__       = '2022-09-07'
 __version__    = '0.9.6'
 
+import sys
 import re
 import os
 import importlib
@@ -71,8 +72,9 @@ def log_create(discoverable=None, raw_output=None, request=None, **kwargs):
     # Try to ingest
     try:
         log = log_ingest(log)
-    except:
-        pass
+    except Exception as e:
+        print('Ingestion failed:', e)
+        #pass
 
     return log
 

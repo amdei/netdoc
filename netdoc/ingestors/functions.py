@@ -9,6 +9,7 @@ import re
 import ipaddress
 import logging
 import importlib
+import sys
 from os.path import basename
 from OuiLookup import OuiLookup
 from slugify import slugify
@@ -616,10 +617,14 @@ def delete_none(_dict):
 
 
 def log_ingest(log):
+    print(log, file=sys.stderr)
     function_name = parsing_function_from_log(log)
+    print(function_name, file=sys.stderr)
     try:
         m = importlib.import_module(f'netdoc.ingestors.{function_name}')
+        print('Ingestor found', file=sys.stderr)
     except:
+        print('NO ingestor found!', file=sys.stderr)
         raise NoIngestor
     m.ingest(log, force=True)
     return log
